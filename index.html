@@ -52,7 +52,7 @@
             const [voteReason, setVoteReason] = useState("");
             const [isSubmitting, setIsSubmitting] = useState(false);
             const [hasVoted, setHasVoted] = useState(false);
-            const [bgImage] = useState(() => Math.random() < 0.5 ? '車茶.jpg' : '車茶2.jpg');
+            const [bgImage] = useState(() => Math.random() < 0.5 ? '車茶.png' : '車茶2.png');
 
             useEffect(() => {
                 if (localStorage.getItem('kurumatcha_voted') === 'true') {
