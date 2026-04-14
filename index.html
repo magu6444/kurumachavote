@@ -52,6 +52,7 @@
             const [voteReason, setVoteReason] = useState("");
             const [isSubmitting, setIsSubmitting] = useState(false);
             const [hasVoted, setHasVoted] = useState(false);
+            const [bgImage] = useState(() => Math.random() < 0.5 ? '車茶.jpg' : '車茶2.jpg');
 
             useEffect(() => {
                 if (localStorage.getItem('kurumatcha_voted') === 'true') {
@@ -204,7 +205,7 @@
                 <div className="bg-white text-black min-h-screen">
                     <header 
                         className="bg-[#E83E19] px-[15px] pt-[60px] pb-[40px] flex flex-col items-start relative min-h-[250px] bg-cover bg-no-repeat"
-                        style={{ backgroundImage: "url('車茶.jpg')", backgroundPosition: 'right center' }}
+                        style={{ backgroundImage: `url('${bgImage}')`, backgroundPosition: 'right center' }}
                     >
                         <span className="block font-din font-bold mb-[10px] mt-[5px] uppercase tracking-wider leading-none ml-[5px] z-10 text-black">
                             KURUMATCHA 2026
