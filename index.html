@@ -48,6 +48,16 @@
         const App = () => {
             const [selectedCar, setSelectedCar] = useState(null);
             const [showModal, setShowModal] = useState(false);
+            const [voterName, setVoterName] = useState("");
+            const [voteReason, setVoteReason] = useState("");
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            const [hasVoted, setHasVoted] = useState(false);
+
+            useEffect(() => {
+                if (localStorage.getItem('kurumatcha_voted') === 'true') {
+                    setHasVoted(true);
+                }
+            }, []);
 
             const carsData = [
                 { id: 1, name: "Peugeot 408 GT Hybrid", owner: "Masayuki Tsurumi", country: "フランス" },
@@ -158,8 +168,36 @@
 
             const handleSubmit = (e) => {
                 e.preventDefault();
-                if (!selectedCar) return;
-                setShowModal(true);
+                if (!selectedCar || !voterName) {
+                    alert("車と名前を両方入力してください。");
+                    return;
+                }
+                
+                setIsSubmitting(true);
+                const targetCar = carsData.find(c => c.name === selectedCar);
+
+                const payload = {
+                    name: voterName,
+                    carName: selectedCar,
+                    carOwner: targetCar ? targetCar.owner : '',
+                    reason: voteReason
+                };
+
+                fetch('https://script.google.com/macros/s/AKfycbwPbNJnXeYyeUV2YyDpuCExBJy8FYSMeF3Dty-d8HdhQGNS9lpbeNapbEZg44QrgS1VZA/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                }).then(() => {
+                    setIsSubmitting(false);
+                    localStorage.setItem('kurumatcha_voted', 'true');
+                    setHasVoted(true);
+                    setShowModal(true);
+                }).catch(err => {
+                    console.error(err);
+                    setIsSubmitting(false);
+                    alert("エラーが発生しました。");
+                });
             };
 
             return (
@@ -248,44 +286,61 @@
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="bg-[#222323]">
-                        <div className="px-5 py-10 text-white">
-                            <h2 className="font-din font-bold text-[32px] tracking-wider mb-2 uppercase">STEP 02: YOUR INFO</h2>
-                            <p className="text-sm">詳細を入力してください。</p>
+                    {hasVoted ? (
+                        <div className="bg-[#222323] px-5 py-20 text-center text-white">
+                            <h2 className="font-din font-bold text-[40px] tracking-wider mb-4 uppercase">VOTE COMPLETED</h2>
+                            <p className="text-xl font-bold">ご投票ありがとうございました！</p>
+                            <p className="text-sm mt-5 text-gray-400">1人1回までの投票となります。</p>
                         </div>
-
-                        <div className="px-5 pb-5">
-                            <div className="mb-[30px]">
-                                <label className="inline-block font-medium mb-[10px] uppercase bg-white text-black px-2 py-0.5 tracking-wider">
-                                    お名前 / Name
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="山田 太郎"
-                                    required
-                                    className="w-full p-[15px] border-none bg-white text-black outline-none font-normal text-base placeholder:text-gray-400"
-                                />
+                    ) : (
+                        <form onSubmit={handleSubmit} className="bg-[#222323]">
+                            <div className="px-5 py-10 text-white">
+                                <h2 className="font-din font-bold text-[32px] tracking-wider mb-2 uppercase">STEP 02: YOUR INFO</h2>
+                                <p className="text-sm">詳細を入力してください。</p>
                             </div>
-                            <div className="mb-[30px]">
-                                <label className="inline-block font-medium mb-[10px] uppercase bg-white text-black px-2 py-0.5 tracking-wider">
-                                    選んだ理由 / Reason for voting
-                                </label>
-                                <textarea
-                                    placeholder="この車のどこに惹かれましたか？"
-                                    className="w-full p-[15px] border-none bg-white text-black outline-none h-[120px] resize-none font-normal text-base placeholder:text-gray-400"
-                                />
-                            </div>
-                        </div>
 
-                        <div className="px-5 pt-10 pb-20 text-center">
-                            <button
-                                type="submit"
-                                className="w-full max-w-[400px] bg-[#E83E19] text-white py-[25px] font-din font-bold text-2xl uppercase tracking-wider border-none active:scale-95 active:opacity-80 transition-all shadow-[0_6px_0_#000]"
-                            >
-                                Submit Vote
-                            </button>
-                        </div>
-                    </form>
+                            <div className="px-5 pb-5">
+                                <div className="mb-[30px]">
+                                    <label className="inline-block font-medium mb-[10px] uppercase bg-white text-black px-2 py-0.5 tracking-wider">
+                                        お名前 / Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={voterName}
+                                        onChange={e => setVoterName(e.target.value)}
+                                        placeholder="山田 太郎"
+                                        required
+                                        className="w-full p-[15px] border-none bg-white text-black outline-none font-normal text-base placeholder:text-gray-400 focus:ring-2 focus:ring-[#E83E19]"
+                                    />
+                                </div>
+                                <div className="mb-[30px]">
+                                    <label className="inline-block font-medium mb-[10px] uppercase bg-white text-black px-2 py-0.5 tracking-wider">
+                                        選んだ理由 / Reason for voting
+                                    </label>
+                                    <textarea
+                                        value={voteReason}
+                                        onChange={e => setVoteReason(e.target.value)}
+                                        placeholder="この車のどこに惹かれましたか？"
+                                        className="w-full p-[15px] border-none bg-white text-black outline-none h-[120px] resize-none font-normal text-base placeholder:text-gray-400 focus:ring-2 focus:ring-[#E83E19]"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="px-5 pt-10 pb-20 text-center">
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className={`w-full max-w-[400px] text-white py-[25px] font-din font-bold text-2xl uppercase tracking-wider border-none transition-all shadow-[0_6px_0_#000] ${
+                                        isSubmitting 
+                                            ? 'bg-gray-500 cursor-not-allowed opacity-80' 
+                                            : 'bg-[#E83E19] active:scale-95 active:opacity-80 cursor-pointer'
+                                    }`}
+                                >
+                                    {isSubmitting ? 'Submitting...' : 'Submit Vote'}
+                                </button>
+                            </div>
+                        </form>
+                    )}
 
                     <footer className="bg-[#222323] px-5 pb-10 text-center border-b-[3px] border-black">
                         <div className="text-[10px] text-white/40 font-din font-bold uppercase tracking-[0.15em]">
