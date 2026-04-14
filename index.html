@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAR OF THE YEAR 2026 - VOTE NOW</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & Babel for In-browser JSX -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* Custom Font Stacks */
+        @font-face {
+            font-family: 'DIN Alternate';
+            src: local('DIN Alternate'), local('DINAlternate-Bold'), local('Impact');
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-din {
+            font-family: 'DIN Alternate', 'Impact', sans-serif;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const [selectedCar, setSelectedCar] = useState(null);
+            const [showModal, setShowModal] = useState(false);
+
+            const carsData = [
+                { id: 1, name: "Peugeot 408 GT Hybrid", owner: "Masayuki Tsurumi", country: "フランス" },
+                { id: 2, name: "Audi A2", owner: "Takahiro Nakano", country: "ドイツ" },
+                { id: 3, name: "Nissan Datsun truck D22", owner: "Rukiya Uchida", country: "日本" },
+                { id: 4, name: "Porsche 911 (Type 964)", owner: "Junichi Tani", country: "ドイツ" },
+                { id: 5, name: "BMW M240i", owner: "Yuu Kuriki", country: "ドイツ" },
+                { id: 6, name: "MGB GT", owner: "Hotaka Sasaki", country: "イギリス" },
+                { id: 7, name: "Mini 1000", owner: "Yuuta Tsuda", country: "イギリス" },
+                { id: 8, name: "Nissan Datsun truck D21", owner: "Takashi Iijima", country: "日本" },
+                { id: 9, name: "Subaru Impreza WRX STI", owner: "Akira Mizuma", country: "日本" },
+                { id: 10, name: "Renault MEGANE", owner: "Toshiki Nakamura", country: "フランス" },
+                { id: 11, name: "Honda Elysion", owner: "Masaki Kobayashi", country: "日本" },
+                { id: 12, name: "Alfa Romeo 159 Sportwagon TI", owner: "Yamato Tsuzaki", country: "イタリア" },
+                { id: 13, name: "Peugeot 206 style", owner: "Momo Yoshioka", country: "フランス" },
+                { id: 14, name: "Renault Twingo", owner: "Satoru Ochiai", country: "フランス" },
+                { id: 15, name: "Toyota MR-S", owner: "Shinichirou Fukuda", country: "日本" },
+                { id: 16, name: "Suzuki Swift", owner: "Takashi Ayabe", country: "日本" },
+                { id: 17, name: "Mitsubishi i", owner: "Koutarou Ooshima", country: "日本" },
+                { id: 18, name: "Citroën GS", owner: "Hirofumi Yamakita", country: "フランス" },
+                { id: 19, name: "Toyota Chaser", owner: "Kouki Okada", country: "日本" },
+                { id: 20, name: "Lapin Chocolat", owner: "Ryuusei Matsuda", country: "日本" },
+                { id: 21, name: "Fiat 500e", owner: "Riko Ojika", country: "イタリア" },
+                { id: 22, name: "Mitsuoka Ryugi Wagon", owner: "Yoshitake Sakamoto", country: "日本" },
+                { id: 23, name: "Porsche 911 Carrera 3.2", owner: "Mondo Saitou", country: "ドイツ" },
+                { id: 24, name: "VW Golf GTI", owner: "Dan Tanaka", country: "ドイツ" },
+                { id: 25, name: "Audi TT 8j S-line", owner: "Ren Itou", country: "ドイツ" },
+                { id: 26, name: "Suzuki Lapin", owner: "Hirotaka Itou", country: "日本" }
+            ];
+
+            const getFlagSVG = (country, id) => {
+                const colors = {
+                    france: ['#002153', '#ffffff', '#ef4135'],
+                    germany: ['#000000', '#dd0000', '#ffce00'],
+                    japan: ['#ffffff', '#bc002d'],
+                    italy: ['#009246', '#ffffff', '#ce2b37'],
+                    uk: { bg: '#00247d', white: '#ffffff', red: '#cf142b' }
+                };
+
+                const clipId = `clip-flag-${id}`;
+                let flagContent = '';
+
+                switch (country) {
+                    case 'フランス':
+                        flagContent = (
+                            <React.Fragment>
+                                <rect width="33.4" height="100" fill={colors.france[0]} />
+                                <rect x="33.3" width="33.4" height="100" fill={colors.france[1]} />
+                                <rect x="66.6" width="33.4" height="100" fill={colors.france[2]} />
+                            </React.Fragment>
+                        );
+                        break;
+                    case 'ドイツ':
+                        flagContent = (
+                            <React.Fragment>
+                                <rect width="100" height="33.4" fill={colors.germany[0]} />
+                                <rect y="33.3" width="100" height="33.4" fill={colors.germany[1]} />
+                                <rect y="66.6" width="100" height="33.4" fill={colors.germany[2]} />
+                            </React.Fragment>
+                        );
+                        break;
+                    case '日本':
+                        flagContent = (
+                            <React.Fragment>
+                                <rect width="100" height="100" fill={colors.japan[0]} />
+                                <circle cx="50" cy="50" r="30" fill={colors.japan[1]} />
+                            </React.Fragment>
+                        );
+                        break;
+                    case 'イタリア':
+                        flagContent = (
+                            <React.Fragment>
+                                <rect width="33.4" height="100" fill={colors.italy[0]} />
+                                <rect x="33.3" width="33.4" height="100" fill={colors.italy[1]} />
+                                <rect x="66.6" width="33.4" height="100" fill={colors.italy[2]} />
+                            </React.Fragment>
+                        );
+                        break;
+                    case 'イギリス':
+                        flagContent = (
+                            <React.Fragment>
+                                <rect width="100" height="100" fill={colors.uk.bg} />
+                                <path d="M0,0 L100,100 M100,0 L0,100" stroke={colors.uk.white} strokeWidth="14" />
+                                <path d="M0,0 L100,100 M100,0 L0,100" stroke={colors.uk.red} strokeWidth="8" />
+                                <path d="M50,0 V100 M0,50 H100" stroke={colors.uk.white} strokeWidth="22" />
+                                <path d="M50,0 V100 M0,50 H100" stroke={colors.uk.red} strokeWidth="14" />
+                            </React.Fragment>
+                        );
+                        break;
+                    default:
+                        flagContent = <rect width="100" height="100" fill="#eee" />;
+                }
+
+                return (
+                    <svg className="w-full h-full block" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <clipPath id={clipId}>
+                                <circle cx="50" cy="50" r="49.5" />
+                            </clipPath>
+                        </defs>
+                        <g clipPath={`url(#${clipId})`}>
+                            {flagContent}
+                            <circle cx="50" cy="50" r="49.5" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="1" />
+                        </g>
+                    </svg>
+                );
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (!selectedCar) return;
+                setShowModal(true);
+            };
+
+            return (
+                <div className="bg-white text-black min-h-screen">
+                    <header 
+                        className="bg-[#E83E19] px-[15px] pt-[60px] pb-[40px] flex flex-col items-start relative min-h-[250px] bg-cover bg-no-repeat"
+                        style={{ backgroundImage: "url('車茶.jpg')", backgroundPosition: 'right center' }}
+                    >
+                        <span className="block font-din font-bold mb-[10px] mt-[5px] uppercase tracking-wider leading-none ml-[5px] z-10 text-black">
+                            KURUMATCHA 2026
+                        </span>
+                        <h1 className="font-din font-bold text-[clamp(40px,12vw,80px)] leading-[0.85] uppercase tracking-[-0.02em] z-10">
+                            Pick Your<br />Favorite<br />Machine
+                        </h1>
+                    </header>
+
+                    <div className="border-t-[3px] border-b-[3px] border-black py-[12px] bg-white overflow-hidden whitespace-nowrap">
+                        <div className="inline-block animate-marquee font-din font-bold text-[22px] uppercase tracking-wider">
+                            VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • 
+                        </div>
+                    </div>
+
+                    <section className="px-5 py-10 border-b border-black">
+                        <h2 className="font-din font-bold text-[32px] tracking-wider mb-2 uppercase">STEP 01: SELECT CAR</h2>
+                        <p className="text-sm">あなたが最も魅力を感じる一台を選んでください。</p>
+                    </section>
+
+                    <div className="p-4 grid grid-cols-1 gap-6">
+                        {carsData.map((car) => {
+                            const isSelected = selectedCar === car.name;
+                            return (
+                                <div
+                                    key={car.id}
+                                    onClick={() => setSelectedCar(car.name)}
+                                    className={`border-[3px] border-black relative flex transition-all duration-200 cursor-pointer overflow-hidden ${
+                                        isSelected 
+                                            ? 'bg-[#E83E19] border-b-[10px] -translate-y-2' 
+                                            : 'bg-[#E5E5E5] border-b-[3px] translate-y-0'
+                                    }`}
+                                >
+                                    <div className={`w-[90px] flex items-center justify-center border-r-[3px] border-black shrink-0 transition-colors duration-200 ${
+                                        isSelected ? 'bg-[#E83E19] text-white' : 'bg-white text-black'
+                                    }`}>
+                                        <span className="font-din font-bold text-[70px] leading-none tracking-tighter">
+                                            {car.id.toString().padStart(2, '0')}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex-1 p-5 flex flex-col justify-center relative">
+                                        <div className={`absolute top-3 right-3 w-7 h-7 border-2 border-black rounded-full flex items-center justify-center transition-colors duration-200 ${
+                                            isSelected ? 'bg-black' : 'bg-transparent'
+                                        }`}>
+                                            {isSelected && (
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            )}
+                                        </div>
+
+                                        <div className="pr-10">
+                                            <span className={`font-din font-bold text-[16px] uppercase block mb-1 tracking-wider transition-colors duration-200 ${
+                                                isSelected ? 'text-black' : 'text-[#E83E19]'
+                                            }`}>
+                                                {car.owner}
+                                            </span>
+                                            <div className="flex items-center gap-3">
+                                                <h3 className={`font-din font-bold text-[28px] uppercase leading-none tracking-tight transition-colors duration-200 ${
+                                                    isSelected ? 'text-white' : 'text-black'
+                                                }`}>
+                                                    {car.name}
+                                                </h3>
+                                                <div className="w-8 h-8 flex-shrink-0">
+                                                    {getFlagSVG(car.country, car.id)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="border-t-[3px] border-b-[3px] border-black py-[12px] bg-white overflow-hidden whitespace-nowrap">
+                        <div className="inline-block animate-marquee font-din font-bold text-[22px] uppercase tracking-wider">
+                            VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • 
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="bg-[#222323]">
+                        <div className="px-5 py-10 text-white">
+                            <h2 className="font-din font-bold text-[32px] tracking-wider mb-2 uppercase">STEP 02: YOUR INFO</h2>
+                            <p className="text-sm">詳細を入力してください。</p>
+                        </div>
+
+                        <div className="px-5 pb-5">
+                            <div className="mb-[30px]">
+                                <label className="inline-block font-medium mb-[10px] uppercase bg-white text-black px-2 py-0.5 tracking-wider">
+                                    お名前 / Name
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="山田 太郎"
+                                    required
+                                    className="w-full p-[15px] border-none bg-white text-black outline-none font-normal text-base placeholder:text-gray-400"
+                                />
+                            </div>
+                            <div className="mb-[30px]">
+                                <label className="inline-block font-medium mb-[10px] uppercase bg-white text-black px-2 py-0.5 tracking-wider">
+                                    選んだ理由 / Reason for voting
+                                </label>
+                                <textarea
+                                    placeholder="この車のどこに惹かれましたか？"
+                                    className="w-full p-[15px] border-none bg-white text-black outline-none h-[120px] resize-none font-normal text-base placeholder:text-gray-400"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="px-5 pt-10 pb-20 text-center">
+                            <button
+                                type="submit"
+                                className="w-full max-w-[400px] bg-[#E83E19] text-white py-[25px] font-din font-bold text-2xl uppercase tracking-wider border-none active:scale-95 active:opacity-80 transition-all shadow-[0_6px_0_#000]"
+                            >
+                                Submit Vote
+                            </button>
+                        </div>
+                    </form>
+
+                    <footer className="bg-[#222323] px-5 pb-10 text-center border-b-[3px] border-black">
+                        <div className="text-[10px] text-white/40 font-din font-bold uppercase tracking-[0.15em]">
+                            Produced by: Rad Body Co., Ltd., YOSHINO
+                        </div>
+                    </footer>
+
+                    {showModal && (
+                        <div className="fixed inset-0 bg-black/95 z-[1000] p-10 flex flex-col justify-center items-center text-center text-white">
+                            <h2 className="font-din font-bold text-[60px] leading-none mb-5 uppercase">THANK YOU!</h2>
+                            <p className="mb-10 text-xl leading-relaxed font-bold">15:30に2FモニターにてTOP５を発表！</p>
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="w-full max-w-[300px] bg-[#E83E19] text-white p-5 font-din font-bold text-2xl uppercase tracking-wider border-none"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
