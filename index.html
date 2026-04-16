@@ -55,10 +55,9 @@
             const [bgImage] = useState(() => Math.random() < 0.5 ? '車茶.png' : '車茶2.png');
 
             useEffect(() => {
-                // テスト用に一時的に制限を無効化しています
-                // if (localStorage.getItem('kurumatcha_voted') === 'true') {
-                //     setHasVoted(true);
-                // }
+                if (localStorage.getItem('kurumatcha_voted') === 'true') {
+                    setHasVoted(true);
+                }
             }, []);
 
             const carsData = [
@@ -193,9 +192,8 @@
                     body: JSON.stringify(payload)
                 }).then(() => {
                     setIsSubmitting(false);
-                    // テスト用に一時的に制限を無効化しています
-                    // localStorage.setItem('kurumatcha_voted', 'true');
-                    // setHasVoted(true);
+                    localStorage.setItem('kurumatcha_voted', 'true');
+                    setHasVoted(true);
                     setShowModal(true);
                 }).catch(err => {
                     console.error(err);
