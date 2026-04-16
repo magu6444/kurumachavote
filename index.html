@@ -206,15 +206,26 @@
             return (
                 <div className="bg-white text-black min-h-screen">
                     <header 
-                        className="bg-[#E83E19] px-[15px] pt-[60px] pb-[40px] flex flex-col items-start relative min-h-[250px] bg-cover bg-no-repeat"
-                        style={{ backgroundImage: `url('${bgImage}')`, backgroundPosition: 'right center' }}
+                        className="bg-[#E83E19] px-[15px] py-[40px] flex flex-col justify-center items-start relative min-h-[320px] overflow-hidden"
                     >
-                        <span className="block font-din font-bold mb-[10px] mt-[5px] uppercase tracking-wider leading-none ml-[5px] z-10 text-black">
-                            KURUMATCHA 2026
-                        </span>
-                        <h1 className="font-din font-bold text-[clamp(40px,12vw,80px)] leading-[0.85] uppercase tracking-[-0.02em] z-10">
-                            Pick Your<br />Favorite<br />Machine
-                        </h1>
+                        <div 
+                            className="absolute right-[-10px] top-1/2 -translate-y-1/2 bg-no-repeat"
+                            style={{ 
+                                width: '291.04px', 
+                                height: '291.04px', 
+                                backgroundImage: `url('${bgImage}')`, 
+                                backgroundSize: 'contain',
+                                backgroundPosition: 'center right'
+                            }}
+                        />
+                        <div className="relative z-10">
+                            <span className="block font-din font-bold mb-[10px] mt-[5px] uppercase tracking-wider leading-none ml-[5px] text-black">
+                                KURUMATCHA 2026
+                            </span>
+                            <h1 className="font-din font-bold text-[clamp(40px,12vw,80px)] leading-[0.85] uppercase tracking-[-0.02em] text-black">
+                                Pick Your<br />Favorite<br />Machine
+                            </h1>
+                        </div>
                     </header>
 
                     <div className="border-t-[3px] border-b-[3px] border-black py-[12px] bg-white overflow-hidden whitespace-nowrap">
