@@ -13,7 +13,6 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         /* Custom Font Stacks */
@@ -197,14 +196,6 @@
                     // localStorage.setItem('kurumatcha_voted', 'true');
                     // setHasVoted(true);
                     setShowModal(true);
-                    if (typeof confetti === 'function') {
-                        confetti({
-                            particleCount: 150,
-                            spread: 70,
-                            origin: { y: 0.6 },
-                            zIndex: 3000
-                        });
-                    }
                 }).catch(err => {
                     console.error(err);
                     setIsSubmitting(false);
