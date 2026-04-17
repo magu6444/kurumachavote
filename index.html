@@ -214,9 +214,15 @@
             return (
                 <div className="bg-white text-black min-h-screen">
                     <header
-                        className="w-full aspect-square md:max-w-[600px] md:mx-auto bg-center bg-cover bg-no-repeat"
+                        className="w-full aspect-square md:max-w-[600px] md:mx-auto bg-center bg-cover bg-no-repeat relative"
                         style={{ backgroundImage: `url('${bgImage}')` }}
-                    />
+                    >
+                        <img 
+                            src="RADBODYlogo.png" 
+                            alt="RADBODY" 
+                            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[100px] h-auto object-contain"
+                        />
+                    </header>
 
                     <div className="border-t-[3px] border-b-[3px] border-black py-[12px] bg-white overflow-hidden whitespace-nowrap">
                         <div className="inline-block animate-marquee font-din font-bold text-[22px] uppercase tracking-wider">
