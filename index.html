@@ -64,7 +64,7 @@
             const [bgImage] = useState(() => Math.random() < 0.5 ? '車茶.png' : '車茶2.png');
 
             useEffect(() => {
-                if (localStorage.getItem('kurumatcha_voted') === 'true') {
+                if (localStorage.getItem('kurumatcha_voted_production') === 'true') {
                     setHasVoted(true);
                 }
             }, []);
@@ -201,7 +201,7 @@
                     body: JSON.stringify(payload)
                 }).then(() => {
                     setIsSubmitting(false);
-                    localStorage.setItem('kurumatcha_voted', 'true');
+                    localStorage.setItem('kurumatcha_voted_production', 'true');
                     setHasVoted(true);
                     setShowModal(true);
                 }).catch(err => {
