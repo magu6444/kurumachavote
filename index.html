@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAR OF THE YEAR 2026 - VOTE NOW</title>
-    
+
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- React & Babel for In-browser JSX -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -31,14 +33,21 @@
         }
 
         @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
+
         .animate-marquee {
             animation: marquee 20s linear infinite;
         }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
 
@@ -77,16 +86,16 @@
                 { id: 14, name: "Renault Twingo", owner: "Satoru Ochiai", country: "フランス" },
                 { id: 15, name: "Toyota MR-S", owner: "Shinichirou Fukuda", country: "日本" },
                 { id: 16, name: "Suzuki Swift", owner: "Takashi Ayabe", country: "日本" },
-                { id: 17, name: "Mitsubishi i", owner: "Koutarou Ooshima", country: "日本" },
+                { id: 17, name: "Mitsubishi i", owner: "Koutarou Oshima", country: "日本" },
                 { id: 18, name: "Citroën GS", owner: "Hirofumi Yamakita", country: "フランス" },
                 { id: 19, name: "Toyota Chaser", owner: "Kouki Okada", country: "日本" },
                 { id: 20, name: "Lapin Chocolat", owner: "Ryuusei Matsuda", country: "日本" },
                 { id: 21, name: "Fiat 500e", owner: "Riko Ojika", country: "イタリア" },
                 { id: 22, name: "Mitsuoka Ryugi Wagon", owner: "Yoshitake Sakamoto", country: "日本" },
-                { id: 23, name: "Porsche 911 Carrera 3.2", owner: "Mondo Saitou", country: "ドイツ" },
+                { id: 23, name: "Porsche 911 Carrera 3.2", owner: "Mondo Saito", country: "ドイツ" },
                 { id: 24, name: "VW Golf GTI", owner: "Dan Tanaka", country: "ドイツ" },
-                { id: 25, name: "Audi TT 8j S-line", owner: "Ren Itou", country: "ドイツ" },
-                { id: 26, name: "Suzuki Lapin", owner: "Hirotaka Itou", country: "日本" },
+                { id: 25, name: "Audi TT 8j S-line", owner: "Ren Ito", country: "ドイツ" },
+                { id: 26, name: "Suzuki Lapin", owner: "Hirotaka Ito", country: "日本" },
                 { id: 27, name: "Porsche 550 Spyder", owner: "Tatsuya Wada", country: "ドイツ" }
             ];
 
@@ -174,7 +183,7 @@
                     alert("車と名前を両方入力してください。");
                     return;
                 }
-                
+
                 setIsSubmitting(true);
                 const targetCar = carsData.find(c => c.name === selectedCar);
 
@@ -204,14 +213,14 @@
 
             return (
                 <div className="bg-white text-black min-h-screen">
-                    <header 
+                    <header
                         className="w-full aspect-square md:max-w-[600px] md:mx-auto bg-center bg-cover bg-no-repeat"
                         style={{ backgroundImage: `url('${bgImage}')` }}
                     />
 
                     <div className="border-t-[3px] border-b-[3px] border-black py-[12px] bg-white overflow-hidden whitespace-nowrap">
                         <div className="inline-block animate-marquee font-din font-bold text-[22px] uppercase tracking-wider">
-                            VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • 
+                            VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN •
                         </div>
                     </div>
 
@@ -227,24 +236,21 @@
                                 <div
                                     key={car.id}
                                     onClick={() => setSelectedCar(car.name)}
-                                    className={`border-[3px] border-black relative flex transition-all duration-200 cursor-pointer overflow-hidden ${
-                                        isSelected 
-                                            ? 'bg-[#E83E19] border-b-[10px] -translate-y-2' 
+                                    className={`border-[3px] border-black relative flex transition-all duration-200 cursor-pointer overflow-hidden ${isSelected
+                                            ? 'bg-[#E83E19] border-b-[10px] -translate-y-2'
                                             : 'bg-[#E5E5E5] border-b-[3px] translate-y-0'
-                                    }`}
+                                        }`}
                                 >
-                                    <div className={`w-[90px] flex items-center justify-center border-r-[3px] border-black shrink-0 transition-colors duration-200 ${
-                                        isSelected ? 'bg-[#E83E19] text-white' : 'bg-white text-black'
-                                    }`}>
+                                    <div className={`w-[90px] flex items-center justify-center border-r-[3px] border-black shrink-0 transition-colors duration-200 ${isSelected ? 'bg-[#E83E19] text-white' : 'bg-white text-black'
+                                        }`}>
                                         <span className="font-din font-bold text-[70px] leading-none tracking-tighter">
                                             {car.id.toString().padStart(2, '0')}
                                         </span>
                                     </div>
 
                                     <div className="flex-1 p-5 flex flex-col justify-center relative">
-                                        <div className={`absolute top-3 right-3 w-8 h-8 border-2 border-black rounded-full flex items-center justify-center transition-colors duration-200 ${
-                                            isSelected ? 'bg-black' : 'bg-transparent'
-                                        }`}>
+                                        <div className={`absolute top-3 right-3 w-8 h-8 border-2 border-black rounded-full flex items-center justify-center transition-colors duration-200 ${isSelected ? 'bg-black' : 'bg-transparent'
+                                            }`}>
                                             {isSelected && (
                                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                                                     <polyline points="20 6 9 17 4 12"></polyline>
@@ -257,15 +263,13 @@
                                         </div>
 
                                         <div className="pr-10">
-                                            <span className={`font-din font-bold text-[16px] uppercase block mb-1 tracking-wider transition-colors duration-200 ${
-                                                isSelected ? 'text-black' : 'text-[#E83E19]'
-                                            }`}>
+                                            <span className={`font-din font-bold text-[16px] uppercase block mb-1 tracking-wider transition-colors duration-200 ${isSelected ? 'text-black' : 'text-[#E83E19]'
+                                                }`}>
                                                 {car.owner}
                                             </span>
                                             <div>
-                                                <h3 className={`font-din font-bold text-[28px] uppercase leading-none tracking-tight transition-colors duration-200 ${
-                                                    isSelected ? 'text-white' : 'text-black'
-                                                }`}>
+                                                <h3 className={`font-din font-bold text-[28px] uppercase leading-none tracking-tight transition-colors duration-200 ${isSelected ? 'text-white' : 'text-black'
+                                                    }`}>
                                                     {car.name}
                                                 </h3>
                                             </div>
@@ -278,7 +282,7 @@
 
                     <div className="border-t-[3px] border-b-[3px] border-black py-[12px] bg-white overflow-hidden whitespace-nowrap">
                         <div className="inline-block animate-marquee font-din font-bold text-[22px] uppercase tracking-wider">
-                            VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • 
+                            VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN • VOTE NOW • THE BEST CAR OF 2026 • SHARE YOUR PASSION • POWER & DESIGN •
                         </div>
                     </div>
 
@@ -326,11 +330,10 @@
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className={`w-full max-w-[400px] text-white py-[25px] font-din font-bold text-2xl uppercase tracking-wider border-none transition-all shadow-[0_6px_0_#000] ${
-                                        isSubmitting 
-                                            ? 'bg-gray-500 cursor-not-allowed opacity-80' 
+                                    className={`w-full max-w-[400px] text-white py-[25px] font-din font-bold text-2xl uppercase tracking-wider border-none transition-all shadow-[0_6px_0_#000] ${isSubmitting
+                                            ? 'bg-gray-500 cursor-not-allowed opacity-80'
                                             : 'bg-[#E83E19] active:scale-95 active:opacity-80 cursor-pointer'
-                                    }`}
+                                        }`}
                                 >
                                     {isSubmitting ? 'Submitting...' : 'Submit Vote'}
                                 </button>
@@ -368,4 +371,5 @@
         root.render(<App />);
     </script>
 </body>
+
 </html>
